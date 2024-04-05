@@ -3,23 +3,19 @@ from st_pages import Page, Section, show_pages, add_page_title
 
 st.set_page_config(page_title = "yelim", page_icon="🍀", layout = "wide", initial_sidebar_state = "expanded")
 
-st.sidebar.title("Sophisticated Palette 🎨")
+st.markdown("# Main page 🎈")
+st.sidebar.markdown("# Main page 🎈")
 
-add_page_title()
+# st.sidebar.title("Sophisticated Palette 🎨")
 
-show_pages(
-    [
-        Page("pages/yelim.py", "Main", "🙋‍♀️"),
-    ]
-)
+# add_page_title()
 
-st.sidebar.markdown("---")
-show_pages(
-    [
-        Page("pages/ontology.py", "Ontology"),
-        Page("pages/chatbot.py", "Chatbot"),
-        Page("pages/emotion_classification.py"),
-        Page("pages/zero_shot_classification.py")
-    ]
-)
-st.sidebar.markdown("---")
+# show_pages(
+#     [
+#         Page("pages/yelim.py", "Main", "🙋‍♀️"),
+#         Page("pages/ontology.py", "Ontology"),
+#         Page("pages/chatbot.py", "Chatbot"),
+#         Page("pages/emotion_classification.py"),
+#         Page("pages/zero_shot_classification.py")
+#     ]
+# )
