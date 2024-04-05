@@ -8,8 +8,8 @@ add_page_title()
 show_pages(
     [
         Page("pages/yelim.py", "Main", "🙋‍♀️"),
-        Section("Turingbio", "🧬"),
-        Page("pages/ontology.py", "Ontology", in_section=True),
+        Section(name = "Turingbio", icon = "🧬"),
+        Page("pages/ontology.py", "Ontology"),
         Page("pages/chatbot.py", "Chatbot"),
         Page("pages/emotion_classification.py"),
         Page("pages/zero_shot_classification.py")
