@@ -51,7 +51,7 @@ from transformers import BartForSequenceClassification, PreTrainedTokenizerFast
 # user = "너무너무 화가 나"
 # emotion_classifier.get_predict(input_text = user)
 
-def app():
+def main():
     
     st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
 
@@ -63,7 +63,16 @@ def app():
     st.sidebar.markdown("---")
     st.sidebar.caption("Made by [yelim kim](mailto:kyelim24@gmail.com)")
     
+    st.markdown("""
+    # Emotion text classification
+    
+    According to the discrete basic emotion description approach, emotions can be classified into six basic emotions: sadness, joy, surprise, anger, disgust, and fear _(van den Broek, 2013)_
+    """)
+    
     with st.form(key='emotion_clf_form'):
         text = st.text_area("감정을 확인하고자 하는 문장을 입력해주세요.", value="여기에 입력해주세요.")
         submit = st.form_submit_button(label='분석하기')
         
+if __name__ == "__main__":
+    main()
+    
