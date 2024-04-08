@@ -9,7 +9,7 @@ st.sidebar.title("Chatbot")
 st.sidebar.markdown("어쩌구 저쩌구 웹 설명")
 
 st.sidebar.markdown("---")
-st.sidebar.caption("Made by [yelim kim](https://github.com/yelim24/streamlit-main)")
+st.sidebar.caption("Made by [yelim kim](matilto:kyelim24@gmail.com)")
 
 st.title("🍀고민상담소🍀")
 st.subheader("prompting, finetuning 테스트용 Chatbot입니다")
