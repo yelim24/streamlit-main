@@ -8,3 +8,4 @@ st.sidebar.markdown("# Main page")
 # st.sidebar.write("어쩌구 저쩌구 페이지 짧은 설명")
 
 # https://github.com/blackary/st_pages?tab=readme-ov-file
+
