@@ -49,7 +49,6 @@ class EmotionClassifier():
 emotion_classifier = get_model()
 
 def main():
-    
     st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
 
     st.sidebar.title("Emotion classifier")
@@ -63,7 +62,6 @@ def main():
     
     어쩌구 저쩌구 설명~~ 4가지 감정 분류 가능~~
     """)
-    st.markdown("asdfasdf", unsafe_allow_html=True)
     
     with st.form(key='emotion_clf_form'):
         text = st.text_input("아래 칸에 문장을 입력해주세요 👇", #value="오늘 날씨가 너무 좋지 않아?", 
