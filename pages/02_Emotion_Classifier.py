@@ -66,8 +66,8 @@ def main():
         if text:
             emotion_classifier = EmotionClassifier(model=model, tokenizer=tokenizer)
             result = emotion_classifier.get_predict(input_text = text)
-            _, _, col3, _, _= st.columns(5)
-            with col3:
+            _, col2, _= st.columns()
+            with col2:
                 with st.spinner('분석 중입니다..🏃‍♂️..'):
                     time.sleep(5)
             col1, col2 = st.columns(2)
