@@ -68,15 +68,16 @@ def main():
     """)
     
     st.markdown(
-                """
-                <style>
-                form_submit_button {
-                    height: 500;
-                }
-                </style>
-                """,
-                    unsafe_allow_html=True,
-                )
+        """
+        <style>
+        form_submit_button {
+            height: 5000;
+            font-size: 20px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
     
     with st.form(key='emotion_clf_form'):
         text = st.text_input("아래 칸에 문장을 입력해주세요 👇", value="오늘 날씨가 너무 좋지 않아?")
