@@ -55,9 +55,8 @@ def main():
     
     st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
 
-    # st.sidebar.title("Emotion classifier")
-    st.sidebar.markdown("""# Emotion classifier
-                        어쩌구 저쩌구 페이지 설명""")
+    st.sidebar.title("Emotion classifier")
+    st.sidebar.markdown("""어쩌구 저쩌구 페이지 설명""")
 
     st.sidebar.markdown("---")
     st.sidebar.caption("Made by [yelim kim](mailto:kyelim24@gmail.com)")
@@ -68,8 +67,19 @@ def main():
     어쩌구 저쩌구 설명~~ 4가지 감정 분류 가능~~
     """)
     
+    st.markdown(
+                """
+                <style>
+                form_submit_button {
+                    height: 100;
+                }
+                </style>
+                """,
+                    unsafe_allow_html=True,
+                )
+    
     with st.form(key='emotion_clf_form'):
-        text = st.text_area("아래 칸에 문장을 입력해주세요👇\n", help="예) 오늘 날씨가 너무 좋지 않아?.")
+        text = st.text_input("아래 칸에 문장을 입력해주세요 👇", value="오늘 날씨가 너무 좋지 않아?.")
         submit = st.form_submit_button(label='결과 보기')
         
         if submit:
