@@ -61,8 +61,8 @@ def main():
     
     어쩌구 저쩌구 설명~~ 4가지 감정 분류 가능~~
     """)
-    
-    with st.form(key='emotion_clf_form'):
+    clf_form = st.form(key='emotion_clf_form')
+    with clf_form:
         text = st.text_input("아래 칸에 문장을 입력해주세요 👇", #value="오늘 날씨가 너무 좋지 않아?", 
                              placeholder="오늘 날씨가 너무 좋지 않아?")
         submit = st.form_submit_button(label='결과 보기')
@@ -75,13 +75,11 @@ def main():
                 with st.spinner('분석 중입니다..🏃‍♂️..'):
                     time.sleep(3)
             col1, col2 = st.columns(2)
-            with col1: 
-                st.success(f"Emotion Predicted : {result['result']}")
-            with col2:
-                st.success(f"Emotion Predicted : {result[result['result']]}")
+            col1.success(f"Emotion Predicted : {result['result']}")
+            col2.success(f"Emotion Predicted : {result[result['result']]}")
         else:
             # st.warning(' 문장을 입력해주세요!', icon="⚠️")
-            st.toast('문장을 입력해주세요!', icon="⚠️")
+            clf_form.toast('문장을 입력해주세요!', icon="⚠️")
         
 if __name__ == "__main__":
     main()
