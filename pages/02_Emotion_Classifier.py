@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 from transformers import BartForSequenceClassification, PreTrainedTokenizerFast
 
+st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
+
 HF_PATH = "yelim24/utterance_emotion_classification"
 
 @st.cache_resource
@@ -46,11 +48,8 @@ class EmotionClassifier():
         # print(f"EmotionClassification 동작 소요 시간 : {time.time() - total}")
         return result
 
-emotion_classifier = get_model()
-
 def main():
-    st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
-
+    emotion_classifier = get_model()
     st.sidebar.title("Emotion classifier")
     st.sidebar.markdown("""어쩌구 저쩌구 페이지 설명""")
 
