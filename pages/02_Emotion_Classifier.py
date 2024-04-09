@@ -55,23 +55,22 @@ def main():
     
     st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
 
-    st.markdown("# Emotion classifier")
-
-    st.sidebar.title("Emotion classifier")
-    st.sidebar.markdown("어쩌구 저쩌구 페이지 설명")
+    # st.sidebar.title("Emotion classifier")
+    st.sidebar.markdown("""# Emotion classifier
+                        어쩌구 저쩌구 페이지 설명""")
 
     st.sidebar.markdown("---")
     st.sidebar.caption("Made by [yelim kim](mailto:kyelim24@gmail.com)")
     
-    # st.markdown("""
-    # # Emotion text classification
+    st.markdown("""
+    # Emotion classifier
     
-    # According to the discrete basic emotion description approach, emotions can be classified into six basic emotions: sadness, joy, surprise, anger, disgust, and fear _(van den Broek, 2013)_
-    # """)
+    어쩌구 저쩌구 설명~~ 4가지 감정 분류 가능~~
+    """)
     
     with st.form(key='emotion_clf_form'):
-        text = st.text_area("감정을 확인하고자 하는 문장을 입력해주세요.", value="여기에 입력해주세요.")
-        submit = st.form_submit_button(label='분석하기')
+        text = st.text_area("아래 칸에 문장을 입력해주세요👇\n", help="예) 오늘 날씨가 너무 좋지 않아?.")
+        submit = st.form_submit_button(label='결과 보기')
         
         if submit:
             st.write("Text:", text)
@@ -79,24 +78,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-# st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
-# st.markdown("# Emotion classifier")
-# st.sidebar.title("Emotion classifier")
-# st.sidebar.markdown("어쩌구 저쩌구 페이지 설명")
-# st.sidebar.markdown("---")
-# st.sidebar.caption("Made by [yelim kim](mailto:kyelim24@gmail.com)")
-
-# # st.markdown("""
-# # # Emotion text classification
-
-# # According to the discrete basic emotion description approach, emotions can be classified into six basic emotions: sadness, joy, surprise, anger, disgust, and fear _(van den Broek, 2013)_
-# # """)
-
-# with st.form(key='emotion_clf_form'):
-#     text = st.text_area("감정을 확인하고자 하는 문장을 입력해주세요.", value="여기에 입력해주세요.")
-#     submit = st.form_submit_button(label='분석하기')
-    
-#     if submit:
-#         st.write("Text:", text)
-            
-            
