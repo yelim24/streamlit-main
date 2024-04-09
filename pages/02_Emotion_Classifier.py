@@ -6,8 +6,12 @@ import numpy as np
 from transformers import BartForSequenceClassification, PreTrainedTokenizerFast
 
 HF_PATH = "yelim24/utterance_emotion_classification"
-model = BartForSequenceClassification.from_pretrained(HF_PATH, num_labels=4, ignore_mismatched_sizes=True)
-tokenizer = PreTrainedTokenizerFast.from_pretrained(HF_PATH)
+
+@st.cache_resource
+def get_model():
+    model = BartForSequenceClassification.from_pretrained(HF_PATH, num_labels=4, ignore_mismatched_sizes=True)
+    tokenizer = PreTrainedTokenizerFast.from_pretrained(HF_PATH)
+    return EmotionClassifier(model=model, tokenizer=tokenizer)
 
 class EmotionClassifier():
     def __init__(self,
@@ -42,6 +46,8 @@ class EmotionClassifier():
         # print(f"EmotionClassification 동작 소요 시간 : {time.time() - total}")
         return result
 
+emotion_classifier = get_model()
+
 def main():
     
     st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
@@ -57,26 +63,28 @@ def main():
     
     어쩌구 저쩌구 설명~~ 4가지 감정 분류 가능~~
     """)
+    st.markdown("asdfasdf", unsafe_allow_html=True)
     
     with st.form(key='emotion_clf_form'):
-        text = st.text_input("아래 칸에 문장을 입력해주세요 👇", value="오늘 날씨가 너무 좋지 않아?")
+        text = st.text_input("아래 칸에 문장을 입력해주세요 👇", #value="오늘 날씨가 너무 좋지 않아?", 
+                             placeholder="오늘 날씨가 너무 좋지 않아?")
         submit = st.form_submit_button(label='결과 보기')
         
     if submit:
         if text:
-            emotion_classifier = EmotionClassifier(model=model, tokenizer=tokenizer)
             result = emotion_classifier.get_predict(input_text = text)
-            _, col2, _= st.columns(3)
+            _, col2, _ = st.columns(3)
             with col2:
                 with st.spinner('분석 중입니다..🏃‍♂️..'):
-                    time.sleep(5)
+                    time.sleep(3)
             col1, col2 = st.columns(2)
             with col1: 
                 st.success(f"Emotion Predicted : {result['result']}")
             with col2:
                 st.success(f"Emotion Predicted : {result[result['result']]}")
         else:
-            st.warning(' 문장을 입력해주세요!', icon="⚠️")
+            # st.warning(' 문장을 입력해주세요!', icon="⚠️")
+            st.toast('문장을 입력해주세요!', icon="⚠️")
         
 if __name__ == "__main__":
     main()
