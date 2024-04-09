@@ -70,7 +70,7 @@ def main():
     st.markdown(
         """
         <style>
-        form_submit_button {
+        .submit_button {
             height: 5000;
             font-size: 20px;
         }
@@ -81,7 +81,7 @@ def main():
     
     with st.form(key='emotion_clf_form'):
         text = st.text_input("아래 칸에 문장을 입력해주세요 👇", value="오늘 날씨가 너무 좋지 않아?")
-        submit = st.form_submit_button(label='결과 보기')
+        submit = st.form_submit_button(label='결과 보기', class_='submit-button')
         
         if submit:
             st.write("Text:", text)
