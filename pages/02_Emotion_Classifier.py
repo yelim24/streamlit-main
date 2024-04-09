@@ -1,16 +1,13 @@
 import streamlit as st
+import time
 import torch
 import pandas as pd
 import numpy as np
 from transformers import BartForSequenceClassification, PreTrainedTokenizerFast
 
-
-
 HF_PATH = "yelim24/utterance_emotion_classification"
 model = BartForSequenceClassification.from_pretrained(HF_PATH, num_labels=4, ignore_mismatched_sizes=True)
 tokenizer = PreTrainedTokenizerFast.from_pretrained(HF_PATH)
-
-EMOTION_MAP = ("분노", "슬픔", "중립", "행복")
 
 class EmotionClassifier():
     def __init__(self,
@@ -20,7 +17,7 @@ class EmotionClassifier():
         self.device = device
         self.model = model.to(self.device)
         self.tokenizer = tokenizer
-        self.labels = EMOTION_MAP
+        self.labels = ("분노", "슬픔", "중립", "행복")
 
     @torch.no_grad()
     def get_predict(self,
@@ -44,12 +41,6 @@ class EmotionClassifier():
         result.update({"result": self.labels[predict_index.item()]})
         # print(f"EmotionClassification 동작 소요 시간 : {time.time() - total}")
         return result
-    
-emotion_classifier = EmotionClassifier(model=model,
-                                       tokenizer=tokenizer)
-
-# user = "너무너무 화가 나"
-# emotion_classifier.get_predict(input_text = user)
 
 def main():
     
@@ -71,16 +62,23 @@ def main():
         text = st.text_input("아래 칸에 문장을 입력해주세요 👇", value="오늘 날씨가 너무 좋지 않아?")
         submit = st.form_submit_button(label='결과 보기')
         
-        if submit:
-            if text:
-                result = emotion_classifier.get_predict(input_text = text)
-                col1, col2 = st.columns(2)
-                with col1: 
-                    st.success(f"Emotion Predicted : {result['result']}")
-                with col2:
-                    st.success(f"Emotion Predicted : {result[result['result']]}")
-            else:
-                st.write("텍스트 입력하라고 팝업 띄워주기")
+    if submit:
+        if text:
+            emotion_classifier = EmotionClassifier(model=model, tokenizer=tokenizer)
+            result = emotion_classifier.get_predict(input_text = text)
+            with st.spinner('분석 중입니다....🏃‍♂️'):
+                time.sleep(3)
+            with st.spinner('분석 중입니다..🏃‍♂️..'):
+                time.sleep(3)
+            st.success('Done!')
+            
+            col1, col2 = st.columns(2)
+            with col1: 
+                st.success(f"Emotion Predicted : {result['result']}")
+            with col2:
+                st.success(f"Emotion Predicted : {result[result['result']]}")
+        else:
+            st.warning('문장을 입력해주세요!', icon="⚠️")
         
 if __name__ == "__main__":
     main()
