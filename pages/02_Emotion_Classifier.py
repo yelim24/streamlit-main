@@ -71,7 +71,7 @@ def main():
                 """
                 <style>
                 form_submit_button {
-                    height: 80;
+                    height: 500;
                 }
                 </style>
                 """,
