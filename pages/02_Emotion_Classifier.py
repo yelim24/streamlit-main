@@ -4,6 +4,10 @@ import torch
 import pandas as pd
 import numpy as np
 from transformers import BartForSequenceClassification, PreTrainedTokenizerFast
+from datetime import datetime
+import pytz
+# from streamlit_shap import st_shap
+# import shap
 
 st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
 
@@ -21,7 +25,7 @@ class EmotionClassifier():
                  tokenizer,
                  device="cpu"):
         self.device = device
-        self.model = model.to(self.device)
+        self.model = model.to(self.device).eval()
         self.tokenizer = tokenizer
         self.labels = ("분노", "슬픔", "중립", "행복")
 
@@ -69,9 +73,10 @@ def main():
                             #  label_visibility="hidden",
                              placeholder="오늘 날씨가 너무 좋지 않아?",)
         submit = st.form_submit_button(label='결과 보기')
-        
     if submit:
         if text:
+            korea_timezone = pytz.timezone('Asia/Seoul')
+            current_time = datetime.now(tz=korea_timezone).strftime("%Y-%m-%d %H:%M:%S")
             result, selected_emo = emotion_classifier.get_predict(input_text = text)
             _, mid, _ = st.columns(3)
             with mid:
@@ -82,8 +87,32 @@ def main():
             col2.success(f"Emotion Predicted : {result[selected_emo]}")
             
             st.markdown("""### Classification Probability""")
-            result_df = pd.DataFrame([result])
-            st.dataframe(result_df, hide_index=True)
+            # result_df = pd.DataFrame([result])
+            result_df = pd.DataFrame.from_dict(result, orient='index', columns=['Probability'])
+            # st.dataframe(result_df, hide_index=False)
+            st.data_editor(result_df, 
+                           column_config = {
+                               "Probability": st.column_config.ProgressColumn(
+                                   "Probability",
+                                   min_value=0,
+                                   max_value=1 # result[selected_emo]
+                               )
+                           }
+            )
+            if 'text' and 'selected_emo' and 'current_time' not in st.session_state:
+                st.session_state.text = []
+                st.session_state.selected_emo = []
+                st.session_state.current_time = []
+            st.session_state.text.append(text)
+            st.session_state.selected_emo.append(selected_emo)
+            st.session_state.current_time.append(current_time)
+            text = st.session_state.text
+            selected_emo = st.session_state.selected_emo
+            current_time = st.session_state.current_time
+            new_row = {'문장': text, '분류 결과': selected_emo, '입력시간': current_time}
+            result_list_df = pd.DataFrame(new_row)
+            st.dataframe(result_list_df, hide_index=False)
+
         else:
             st.warning('문장을 입력해주세요!', icon="⚠️")
             # st.toast('문장을 입력해주세요!', icon="⚠️")
