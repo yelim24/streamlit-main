@@ -6,8 +6,8 @@ import numpy as np
 from transformers import BartForSequenceClassification, PreTrainedTokenizerFast
 from datetime import datetime
 import pytz
-# from streamlit_shap import st_shap
-# import shap
+from etc.utils import *
+from streamlit_shap import st_shap
 
 st.set_page_config(page_title = "Emotion", layout = "wide", initial_sidebar_state = "expanded")
 
@@ -17,7 +17,12 @@ HF_PATH = "yelim24/utterance_emotion_classification"
 def get_model():
     model = BartForSequenceClassification.from_pretrained(HF_PATH, num_labels=4, ignore_mismatched_sizes=True)
     tokenizer = PreTrainedTokenizerFast.from_pretrained(HF_PATH)
-    return EmotionClassifier(model=model, tokenizer=tokenizer)
+    device = torch.device("cuda") if torch.cuda.is_available() else "cpu"
+    emotion_classifier = EmotionClassifier(model=model, tokenizer=tokenizer)
+    classifier_shap = text_classification_pipeline(model=model,
+                                                tokenizer=tokenizer,
+                                                device=device)
+    return emotion_classifier, classifier_shap
 
 class EmotionClassifier():
     def __init__(self,
@@ -54,7 +59,7 @@ class EmotionClassifier():
         return result, selected_emo
 
 def main():
-    emotion_classifier = get_model()
+    emotion_classifier, classifier_shap = get_model()
     
     st.sidebar.title("Emotion classifier")
     st.sidebar.markdown("""어쩌구 저쩌구 페이지 설명""")
@@ -112,6 +117,8 @@ def main():
             new_row = {'문장': text, '분류 결과': selected_emo, '입력시간': current_time}
             result_list_df = pd.DataFrame(new_row)
             st.dataframe(result_list_df, hide_index=False)
+            shap_values = classifier_shap.text_analysis(text)
+            st_shap(shap.plots.text(shap_values[0]))
 
         else:
             st.warning('문장을 입력해주세요!', icon="⚠️")
