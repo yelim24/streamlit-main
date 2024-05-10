@@ -11,7 +11,7 @@ class text_classification_pipeline():
         self.model = model
         self.tokenizer = tokenizer
         self.device = device
-        self.model.to(self.device)
+        # self.model.to(self.device)
         self.explainer = shap.Explainer(self.text_analysis,  # SHAP explainer 선언
                                         self.tokenizer,
                                         output_names=["분노", "슬픔", "중립", "행복"])
@@ -24,8 +24,9 @@ class text_classification_pipeline():
                                            padding="max_length",
                                            max_length=128,
                                            truncation=True,) for x in text_list]
-        return self.model(input_ids=torch.tensor(tokenized).to(self.device))[0]
-
+        # return self.model(input_ids=torch.tensor(tokenized).to(self.device))[0]
+        return self.model(input_ids=torch.tensor(tokenized))[0]
+    
     def text_analysis(self, text=None):
         # 분석 완료된 value 만 출력하는 매서드
         outputs = self(text).detach().cpu().numpy()
@@ -48,4 +49,4 @@ class text_classification_pipeline():
         #     "중요도": shap_values.values[0].squeeze().tolist()
         # } #shap.plots.text(shap_values=shap_values[0], display=False)
         return shap_values
-        
+    
